@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ordering_application/providers/menu_provider.dart';
 import 'package:food_ordering_application/providers/theme_provider.dart';
 import 'package:food_ordering_application/screens/menu_screen.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
+          ChangeNotifierProvider(create: (_) => MenuProvider()),
         ],
         child: MaterialApp(
           title: 'Dream Date',
