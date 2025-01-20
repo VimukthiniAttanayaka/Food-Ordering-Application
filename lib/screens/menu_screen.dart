@@ -15,6 +15,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   int _selectedIndex = 1;
   List<bool> _selectedItems = [];
+  String _selectedMenu = 'lunch';
 
   @override
   void initState() {
@@ -67,13 +68,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 25, vertical: 10),
-                            child: Icon(
-                              Icons.favorite_border,
-                              size: 20,
-                              color: _selectedIndex == 0
-                                  ? AppColors.green
-                                  : AppColors.black,
-                            ),
+                            child: _selectedIndex == 0
+                                ? Image.asset('assets/icon1active.png')
+                                : Image.asset('assets/icon1.png'),
                           ),
                         ),
                         GestureDetector(
@@ -86,13 +83,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 25, vertical: 10),
-                            child: Icon(
-                              Icons.share,
-                              size: 20,
-                              color: _selectedIndex == 1
-                                  ? AppColors.green
-                                  : AppColors.black,
-                            ),
+                            child: _selectedIndex == 1
+                                ? Image.asset('assets/icon2active.png')
+                                : Image.asset('assets/icon2.png'),
                           ),
                         ),
                         GestureDetector(
@@ -109,13 +102,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 25, vertical: 10),
-                            child: Icon(
-                              Icons.bookmark_border,
-                              size: 20,
-                              color: _selectedIndex == 2
-                                  ? AppColors.green
-                                  : AppColors.black,
-                            ),
+                            child: _selectedIndex == 2
+                                ? Image.asset('assets/icon3active.png')
+                                : Image.asset('assets/icon3.png'),
                           ),
                         ),
                       ],
@@ -131,7 +120,144 @@ class _MenuScreenState extends State<MenuScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                              height: 300,
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20.0),
+                                  topRight: Radius.circular(20.0),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Select Menu',
+                                        style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.close,
+                                          color: AppColors.gray3,
+                                          size: 15,
+                                        ),
+                                        onPressed: () => Navigator.pop(
+                                            context), // Close the bottom sheet
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: AppColors.gray2,
+                                    ),
+                                    height: 1.0,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    margin:
+                                        EdgeInsets.only(bottom: 15, top: 10),
+                                    // Add padding for spacing
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColors.gray2,
+                                        width: 1.0, // Border width
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Lunch · 10am - 5pm',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                        Radio(
+                                          value: 'lunch',
+                                          groupValue: _selectedMenu,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _selectedMenu = value!;
+                                            });
+                                          },
+                                          activeColor: AppColors.green,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    margin: EdgeInsets.only(bottom: 15),
+                                    // Add padding for spacing
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColors.gray2,
+                                        width: 1.0, // Border width
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Breakfast · 5pm - 11pm',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                        Radio(
+                                          value: 'breakfast',
+                                          groupValue: _selectedMenu,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _selectedMenu = value!;
+                                            });
+                                          },
+                                          activeColor: AppColors.green,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    // Set full width
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 4),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.green,
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    child: Text(
+                                      'Done',
+                                      style: GoogleFonts.roboto(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ));
+                        },
+                      );
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.gray2,
                     foregroundColor: AppColors.black,
