@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_ordering_application/providers/item_provider.dart';
 import 'package:food_ordering_application/providers/menu_provider.dart';
 import 'package:food_ordering_application/providers/theme_provider.dart';
+import 'package:food_ordering_application/screens/item_screen.dart';
 import 'package:food_ordering_application/screens/menu_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -20,13 +22,14 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
           ChangeNotifierProvider(create: (_) => MenuProvider()),
+          ChangeNotifierProvider(create: (_) => MenuItemProvider()),
         ],
         child: MaterialApp(
           title: 'Dream Date',
           initialRoute: '/menu',
           routes: {
             '/menu': (context) => MenuScreen(),
-            // '/homePage': (context) => const HomePage(),
+            '/item': (context) => const ItemScreen(),
           },
         ));
   }
