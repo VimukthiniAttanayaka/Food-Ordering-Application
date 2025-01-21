@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/models/categories.dart';
+import 'package:food_ordering_application/models/menu.dart';
+import 'package:food_ordering_application/providers/category_provider.dart';
+import 'package:food_ordering_application/providers/item_provider.dart';
 import 'package:food_ordering_application/providers/menu_provider.dart';
+import 'package:food_ordering_application/screens/item_screen.dart';
 import 'package:food_ordering_application/widgets/menu_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+  final List<Menu> menuList;
+  final List<Category> categoryList;
+
+  const MenuScreen(
+      {super.key, required this.menuList, required this.categoryList});
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -15,17 +24,28 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   int _selectedIndex = 1;
   List<bool> _selectedItems = [];
+  final Set<String> _selectedCategoryIDs = {};
   String _selectedMenu = 'lunch';
 
   @override
   void initState() {
     super.initState();
     context.read<MenuProvider>().fetchMenuData();
+    _selectedItems = List.filled(widget.menuList.length, false);
+    _selectedItems[0] = true;
+    final categoryID = widget.menuList[0].menuCategoryIDs.isNotEmpty
+        ? widget.menuList[0].menuCategoryIDs[0]
+        : '';
+    _selectedCategoryIDs.add(categoryID);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CategoryProvider>(context, listen: false)
+          .toggleCategorySelection(_selectedCategoryIDs);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final menuProvider = Provider.of<MenuProvider>(context);
+    final categoryProvider = Provider.of<CategoryProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(children: [
@@ -34,7 +54,7 @@ class _MenuScreenState extends State<MenuScreen> {
           Container(
             width: double.infinity,
             height: 200,
-            padding: EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 20),
             child: Image.asset(
               'assets/cover-container.png',
               fit: BoxFit.cover,
@@ -115,7 +135,7 @@ class _MenuScreenState extends State<MenuScreen> {
         ],
       ),
       Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -127,9 +147,9 @@ class _MenuScreenState extends State<MenuScreen> {
                         builder: (BuildContext context) {
                           return Container(
                               height: 300,
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
+                              padding: const EdgeInsets.all(20),
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20.0),
                                   topRight: Radius.circular(20.0),
                                 ),
@@ -140,7 +160,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Select Menu',
                                         style: TextStyle(
                                             fontSize: 18.0,
@@ -152,8 +172,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                           color: AppColors.gray3,
                                           size: 15,
                                         ),
-                                        onPressed: () => Navigator.pop(
-                                            context), // Close the bottom sheet
+                                        onPressed: () => Navigator.pop(context),
                                       ),
                                     ],
                                   ),
@@ -169,13 +188,12 @@ class _MenuScreenState extends State<MenuScreen> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
-                                    margin:
-                                        EdgeInsets.only(bottom: 15, top: 10),
-                                    // Add padding for spacing
+                                    margin: const EdgeInsets.only(
+                                        bottom: 15, top: 10),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         color: AppColors.gray2,
-                                        width: 1.0, // Border width
+                                        width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -203,12 +221,11 @@ class _MenuScreenState extends State<MenuScreen> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
-                                    margin: EdgeInsets.only(bottom: 15),
-                                    // Add padding for spacing
+                                    margin: const EdgeInsets.only(bottom: 15),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         color: AppColors.gray2,
-                                        width: 1.0, // Border width
+                                        width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -235,7 +252,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                   ),
                                   Container(
                                     width: double.infinity,
-                                    // Set full width
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 10),
                                     margin: const EdgeInsets.symmetric(
@@ -272,29 +288,37 @@ class _MenuScreenState extends State<MenuScreen> {
                       Icon(Icons.arrow_drop_down_sharp),
                     ],
                   )),
-              Icon(Icons.search),
+              const Icon(Icons.search),
             ],
           )),
-      menuProvider.menus.length == 0
-          ? Text('No menu items available') // Informative message
+      widget.menuList.isEmpty
+          ? const Text('No menu items available')
           : Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: menuProvider.menus.length,
+                itemCount: widget.menuList.length,
                 itemBuilder: (context, index) {
-                  final item = menuProvider.menus[index];
-                  // Initialize _selectedItems here
-                  if (_selectedItems.length != menuProvider.menus.length) {
-                    _selectedItems =
-                        List.filled(menuProvider.menus.length, false);
+                  final item = widget.menuList[index];
+                  if (_selectedItems.length != widget.menuList.length) {
+                    _selectedItems = List.filled(widget.menuList.length, false);
                   }
                   return GestureDetector(
                     onTap: () {
                       setState(() {
                         _selectedItems[index] = !_selectedItems[index];
+                        final categoryID = item.menuCategoryIDs.isNotEmpty
+                            ? item.menuCategoryIDs[0]
+                            : '';
+                        if (_selectedCategoryIDs.contains(categoryID)) {
+                          _selectedCategoryIDs.remove(categoryID);
+                        } else {
+                          _selectedCategoryIDs.add(categoryID);
+                        }
                       });
+                      Provider.of<CategoryProvider>(context, listen: false)
+                          .toggleCategorySelection(_selectedCategoryIDs);
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -315,21 +339,20 @@ class _MenuScreenState extends State<MenuScreen> {
                             style: TextStyle(
                               color: _selectedItems[index]
                                   ? AppColors.white
-                                  : AppColors
-                                      .black, // Set the desired color here
+                                  : AppColors.black,
                             ),
                           ),
                           if (_selectedItems[index])
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                           _selectedItems[index]
-                              ? Icon(
+                              ? const Icon(
                                   Icons.close,
                                   size: 16,
                                   color: AppColors.white,
                                 )
-                              : Text(''),
+                              : const Text(''),
                         ],
                       ),
                     ),
@@ -337,49 +360,44 @@ class _MenuScreenState extends State<MenuScreen> {
                 },
               ),
             ),
-      Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-        child: Row(
-          children: [
-            Text('SANDWICHES'),
-          ],
+      Column(
+        children: List.generate(
+          categoryProvider.selectedCategories.length,
+          (index) {
+            final menu = categoryProvider.selectedCategories[index];
+            return Column(
+              children: [
+                ListTile(
+                  title: Text(menu.title.en),
+                ),
+                const SizedBox(height: 8),
+                for (String entityId in Provider.of<CategoryProvider>(context,
+                        listen: false)
+                    .getMenuEntitiesIdsByMenuCategoryId(menu.menuCategoryID))
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ItemScreen(
+                              item: Provider.of<MenuItemProvider>(context,
+                                      listen: false)
+                                  .getMenuItemById(entityId)),
+                        ),
+                      );
+                    },
+                    child: ProductCard(
+                      item:
+                          Provider.of<MenuItemProvider>(context, listen: false)
+                              .getMenuItemById(entityId),
+                      imageUrl:
+                          'https://s3-alpha-sig.figma.com/img/5ae3/bea9/74c02cf405be136eb85d899535045090?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kgL9IQ0vC1h95bWFGlIcDf0kjSvuo8aNzNa6eb9i0uQAHv7NF6CkmgSeW-LUQXzoETpxC5stPf6XYGMT2v~S5RIUyyORIZmIFQffZnPAkSarS~Yz8R1xCvtTUgBpzxTclQu8qVEcYOVgvJ73pO4qmMO0qG5YOZGYaRbYf6dfEHkvdwqHhQQALLgpCMNyBAU2xVh-58jhnQizKPAoFtejfnjBkAdXtYZVedmosQ~sEkWJk2rELx8LLdEq-VsZPJWFLqL3vm3rlEMOyCf~H9Er1iyGpmmI6wHkq1R~~6AZ926Zib8z0DuTUK-ONACO5ROTjUS2KE7ezPwDcgPj3QTwrA__',
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
-      ),
-      ProductCard(
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/5ae3/bea9/74c02cf405be136eb85d899535045090?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kgL9IQ0vC1h95bWFGlIcDf0kjSvuo8aNzNa6eb9i0uQAHv7NF6CkmgSeW-LUQXzoETpxC5stPf6XYGMT2v~S5RIUyyORIZmIFQffZnPAkSarS~Yz8R1xCvtTUgBpzxTclQu8qVEcYOVgvJ73pO4qmMO0qG5YOZGYaRbYf6dfEHkvdwqHhQQALLgpCMNyBAU2xVh-58jhnQizKPAoFtejfnjBkAdXtYZVedmosQ~sEkWJk2rELx8LLdEq-VsZPJWFLqL3vm3rlEMOyCf~H9Er1iyGpmmI6wHkq1R~~6AZ926Zib8z0DuTUK-ONACO5ROTjUS2KE7ezPwDcgPj3QTwrA__',
-        title: 'Product Name',
-        subtitle: 'Short description',
-        price: 29.99,
-      ),
-      ProductCard(
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/5ae3/bea9/74c02cf405be136eb85d899535045090?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kgL9IQ0vC1h95bWFGlIcDf0kjSvuo8aNzNa6eb9i0uQAHv7NF6CkmgSeW-LUQXzoETpxC5stPf6XYGMT2v~S5RIUyyORIZmIFQffZnPAkSarS~Yz8R1xCvtTUgBpzxTclQu8qVEcYOVgvJ73pO4qmMO0qG5YOZGYaRbYf6dfEHkvdwqHhQQALLgpCMNyBAU2xVh-58jhnQizKPAoFtejfnjBkAdXtYZVedmosQ~sEkWJk2rELx8LLdEq-VsZPJWFLqL3vm3rlEMOyCf~H9Er1iyGpmmI6wHkq1R~~6AZ926Zib8z0DuTUK-ONACO5ROTjUS2KE7ezPwDcgPj3QTwrA__',
-        title: 'Product Name',
-        subtitle: 'Short description',
-        price: 29.99,
-      ),
-      Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-        child: Row(
-          children: [
-            Text('SANDWICHES'),
-          ],
-        ),
-      ),
-      ProductCard(
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/5ae3/bea9/74c02cf405be136eb85d899535045090?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kgL9IQ0vC1h95bWFGlIcDf0kjSvuo8aNzNa6eb9i0uQAHv7NF6CkmgSeW-LUQXzoETpxC5stPf6XYGMT2v~S5RIUyyORIZmIFQffZnPAkSarS~Yz8R1xCvtTUgBpzxTclQu8qVEcYOVgvJ73pO4qmMO0qG5YOZGYaRbYf6dfEHkvdwqHhQQALLgpCMNyBAU2xVh-58jhnQizKPAoFtejfnjBkAdXtYZVedmosQ~sEkWJk2rELx8LLdEq-VsZPJWFLqL3vm3rlEMOyCf~H9Er1iyGpmmI6wHkq1R~~6AZ926Zib8z0DuTUK-ONACO5ROTjUS2KE7ezPwDcgPj3QTwrA__',
-        title: 'Product Name',
-        subtitle: 'Short description',
-        price: 29.99,
-      ),
-      ProductCard(
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/5ae3/bea9/74c02cf405be136eb85d899535045090?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kgL9IQ0vC1h95bWFGlIcDf0kjSvuo8aNzNa6eb9i0uQAHv7NF6CkmgSeW-LUQXzoETpxC5stPf6XYGMT2v~S5RIUyyORIZmIFQffZnPAkSarS~Yz8R1xCvtTUgBpzxTclQu8qVEcYOVgvJ73pO4qmMO0qG5YOZGYaRbYf6dfEHkvdwqHhQQALLgpCMNyBAU2xVh-58jhnQizKPAoFtejfnjBkAdXtYZVedmosQ~sEkWJk2rELx8LLdEq-VsZPJWFLqL3vm3rlEMOyCf~H9Er1iyGpmmI6wHkq1R~~6AZ926Zib8z0DuTUK-ONACO5ROTjUS2KE7ezPwDcgPj3QTwrA__',
-        title: 'Product Name',
-        subtitle: 'Short description',
-        price: 29.99,
       ),
       Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
@@ -387,7 +405,6 @@ class _MenuScreenState extends State<MenuScreen> {
           children: [
             Container(
               width: double.infinity,
-              // Set full width
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
               decoration: BoxDecoration(
@@ -396,7 +413,6 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                // Space evenly
                 children: [
                   Text(
                     'Basket • ',
@@ -428,7 +444,6 @@ class _MenuScreenState extends State<MenuScreen> {
             Container(
               alignment: Alignment.center,
               width: double.infinity,
-              // Set full width
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
               decoration: BoxDecoration(
