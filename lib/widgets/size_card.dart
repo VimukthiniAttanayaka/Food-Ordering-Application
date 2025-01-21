@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_ordering_application/colors.dart';
 
 class SizeCard extends StatefulWidget {
-  const SizeCard({Key? key}) : super(key: key);
+  const SizeCard({super.key});
 
   @override
   State<SizeCard> createState() => _SizeCardState();
@@ -30,12 +29,14 @@ class _SizeCardState extends State<SizeCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 20,),
-          Text(
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
             'Choose Size',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -88,15 +89,15 @@ class _SizeCardState extends State<SizeCard> {
             ),
           ]),
           Container(
-            padding: EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.only(bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Classic Thin'),
+                const Text('Classic Thin'),
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 8),
+                      margin: const EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(5.0),
@@ -111,7 +112,7 @@ class _SizeCardState extends State<SizeCard> {
                             shape: const CircleBorder(),
                             elevation: 0,
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.remove,
                             size: 12,
                             color: AppColors.black,
@@ -121,14 +122,13 @@ class _SizeCardState extends State<SizeCard> {
                     ),
                     Text('${_toppingCount}'),
                     Container(
-                        margin: EdgeInsets.only(left: 8),
+                        margin: const EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: SizedBox(
                           width: 20,
-                          // Adjust this value to change the button size
                           height: 20,
                           child: ElevatedButton(
                             onPressed: () => _incrementToppingCount(),
@@ -137,7 +137,7 @@ class _SizeCardState extends State<SizeCard> {
                               shape: const CircleBorder(),
                               elevation: 0,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                               size: 12,
                               color: AppColors.black,
@@ -150,15 +150,15 @@ class _SizeCardState extends State<SizeCard> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.only(bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('New York Style Crus'),
+                const Text('New York Style Crus'),
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 8),
+                      margin: const EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(5.0),
@@ -173,7 +173,7 @@ class _SizeCardState extends State<SizeCard> {
                             shape: const CircleBorder(),
                             elevation: 0,
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.remove,
                             size: 12,
                             color: AppColors.black,
@@ -183,14 +183,13 @@ class _SizeCardState extends State<SizeCard> {
                     ),
                     Text('${_toppingCount}'),
                     Container(
-                        margin: EdgeInsets.only(left: 8),
+                        margin: const EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: SizedBox(
                           width: 20,
-                          // Adjust this value to change the button size
                           height: 20,
                           child: ElevatedButton(
                             onPressed: () => _incrementToppingCount(),
@@ -199,7 +198,7 @@ class _SizeCardState extends State<SizeCard> {
                               shape: const CircleBorder(),
                               elevation: 0,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                               size: 12,
                               color: AppColors.black,
@@ -212,15 +211,15 @@ class _SizeCardState extends State<SizeCard> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.only(bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Detroit Style'),
+                const Text('Detroit Style'),
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 8),
+                      margin: const EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(5.0),
@@ -235,7 +234,7 @@ class _SizeCardState extends State<SizeCard> {
                             shape: const CircleBorder(),
                             elevation: 0,
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.remove,
                             size: 12,
                             color: AppColors.black,
@@ -245,14 +244,13 @@ class _SizeCardState extends State<SizeCard> {
                     ),
                     Text('${_toppingCount}'),
                     Container(
-                        margin: EdgeInsets.only(left: 8),
+                        margin: const EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: SizedBox(
                           width: 20,
-                          // Adjust this value to change the button size
                           height: 20,
                           child: ElevatedButton(
                             onPressed: () => _incrementToppingCount(),
@@ -261,7 +259,7 @@ class _SizeCardState extends State<SizeCard> {
                               shape: const CircleBorder(),
                               elevation: 0,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                               size: 12,
                               color: AppColors.black,
@@ -274,7 +272,7 @@ class _SizeCardState extends State<SizeCard> {
             ),
           ),
           Center(
-            child:Container(
+            child: Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),

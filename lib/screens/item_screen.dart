@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_application/colors.dart';
-import 'package:food_ordering_application/providers/item_provider.dart';
+import 'package:food_ordering_application/models/item.dart';
 import 'package:food_ordering_application/widgets/item_card.dart';
-import 'package:food_ordering_application/widgets/size_card.dart';
 import 'package:food_ordering_application/widgets/sub_topping_card.dart';
 import 'package:food_ordering_application/widgets/topping_card.dart';
-import 'package:provider/provider.dart';
 
 class ItemScreen extends StatefulWidget {
-  const ItemScreen({Key? key}) : super(key: key);
+  final MenuItem item;
+
+  const ItemScreen({super.key, required this.item});
 
   @override
   State<ItemScreen> createState() => _ItemScreenState();
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-
   int _counter = 1;
   double price = 1260;
 
@@ -24,7 +23,6 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MenuItemProvider>().fetchMenuItemData();
   }
 
   void _incrementCounter() {
@@ -50,12 +48,11 @@ class _ItemScreenState extends State<ItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final menuItemProvider = Provider.of<MenuItemProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
         children: [
-          ItemCard(item: menuItemProvider.menuItems[0]),
+          ItemCard(item: widget.item),
           ToppingCard(toppings: toppings),
           SubToppingCard(
             title: 'Section 1',
@@ -65,15 +62,18 @@ class _ItemScreenState extends State<ItemScreen> {
             title: 'Section 1',
             toppings: toppings,
           ),
-          SizeCard(),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                SizedBox(height: 20,),
-                Row(children: [
-                  Text('Add Comments (Optional)'),
-                ],),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Row(
+                  children: [
+                    Text('Add Comments (Optional)'),
+                  ],
+                ),
                 Container(
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
@@ -82,16 +82,19 @@ class _ItemScreenState extends State<ItemScreen> {
                   ),
                   child: TextField(
                     controller: _commentController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Write here',
-                      hintStyle: TextStyle(fontSize: 15.0, color: AppColors.gray3), // Set desired hint text size
+                      hintStyle:
+                          TextStyle(fontSize: 15.0, color: AppColors.gray3),
                       border: InputBorder.none,
                     ),
                     minLines: 3,
                     maxLines: 7,
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -113,13 +116,13 @@ class _ItemScreenState extends State<ItemScreen> {
                               elevation: 0,
                               backgroundColor: AppColors.gray2,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.remove,
                               size: 18,
                               color: AppColors.green,
                             ),
                           ),
-                          Text(
+                          const Text(
                             '1',
                             style: TextStyle(
                               fontSize: 15.0,
@@ -134,7 +137,7 @@ class _ItemScreenState extends State<ItemScreen> {
                               elevation: 0,
                               backgroundColor: AppColors.gray2,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                               size: 18,
                               color: AppColors.green,
@@ -145,7 +148,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     ),
                     Container(
                       height: 40,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                         color: AppColors.green,
                         borderRadius: BorderRadius.circular(5.0),
@@ -153,7 +156,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       child: Center(
                         child: Text(
                           'Add to Cart  ₹${price.toStringAsFixed(2)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15.0,
                           ),
@@ -162,9 +165,11 @@ class _ItemScreenState extends State<ItemScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Center(
-                  child:Container(
+                  child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),

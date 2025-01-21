@@ -15,7 +15,15 @@ class MenuItemProvider with ChangeNotifier {
     final jsonData = jsonDecode(jsonString);
     final List<dynamic> menuItemsList = jsonData['Result']['Items'];
 
-    _menuItems = menuItemsList.map((menuItemsJson) => MenuItem.fromJson(menuItemsJson)).toList();
+    _menuItems = menuItemsList
+        .map((menuItemsJson) => MenuItem.fromJson(menuItemsJson))
+        .toList();
     notifyListeners();
+  }
+
+  MenuItem getMenuItemById(String menuItemId) {
+    return _menuItems.firstWhere((item) => item.menuItemId == menuItemId,
+        orElse: () =>
+            throw Exception('Menu item with ID: $menuItemId not found'));
   }
 }

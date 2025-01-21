@@ -9,11 +9,11 @@ class SubToppingCard extends StatefulWidget {
   final bool initiallyExpanded;
 
   const SubToppingCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.toppings,
     this.initiallyExpanded = false,
-  }) : super(key: key);
+  });
 
   @override
   _SubToppingCardState createState() => _SubToppingCardState();
@@ -78,75 +78,72 @@ class _SubToppingCardState extends State<SubToppingCard> {
         ),
         if (_isExpanded)
           Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.white,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (int i = 0; i < widget.toppings.length; i++)
-                    Container(
-                      padding: EdgeInsets.only(bottom: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.toppings[i].name),
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (int i = 0; i < widget.toppings.length; i++)
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.toppings[i].name),
+                        Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 8),
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: ElevatedButton(
+                                  onPressed: () => _decrementToppingCount(i),
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: const CircleBorder(),
+                                      elevation: 0,
+                                      backgroundColor: AppColors.white),
+                                  child: const Icon(
+                                    Icons.remove,
+                                    size: 12,
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Text('${_toppingCounts[i]}'),
+                            Container(
+                                margin: const EdgeInsets.only(left: 8),
                                 child: SizedBox(
                                   width: 20,
                                   height: 20,
                                   child: ElevatedButton(
-                                    onPressed: () => _decrementToppingCount(i),
+                                    onPressed: () => _incrementToppingCount(i),
                                     style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      shape: const CircleBorder(),
-                                      elevation: 0,
-                                      backgroundColor: AppColors.white
-                                    ),
-                                    child: Icon(
-                                      Icons.remove,
+                                        padding: EdgeInsets.zero,
+                                        shape: const CircleBorder(),
+                                        elevation: 0,
+                                        backgroundColor: AppColors.white),
+                                    child: const Icon(
+                                      Icons.add,
                                       size: 12,
                                       color: AppColors.black,
                                     ),
                                   ),
-                                ),
-                              ),
-                              Text('${_toppingCounts[i]}'),
-                              Container(
-                                  margin: EdgeInsets.only(left: 8),
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: ElevatedButton(
-                                      onPressed: () =>
-                                          _incrementToppingCount(i),
-                                      style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        shape: const CircleBorder(),
-                                        elevation: 0,
-                                          backgroundColor: AppColors.white
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 12,
-                                        color: AppColors.black,
-                                      ),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                ],
-              ),
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+              ],
             ),
+          ),
       ],
     );
   }

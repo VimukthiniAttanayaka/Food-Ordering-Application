@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductCard extends StatelessWidget {
+  final MenuItem item;
   final String imageUrl;
-  final String title;
-  final String subtitle;
-  final double price;
 
   const ProductCard({
-    Key? key,
+    super.key,
+    required this.item,
     required this.imageUrl,
-    required this.title,
-    required this.subtitle,
-    required this.price,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: AppColors.gray1, width: 2),
         ),
@@ -31,7 +28,6 @@ class ProductCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            // Add border radius to image
             child: Image.network(
               imageUrl,
               fit: BoxFit.cover,
@@ -40,14 +36,13 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16.0),
-          // Right side: Column with title, subtitle, and price
           Expanded(
             flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  item.title.en,
                   style: GoogleFonts.roboto(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -55,7 +50,7 @@ class ProductCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4.0),
                 Text(
-                  subtitle,
+                  item.description.en,
                   style: GoogleFonts.roboto(
                     fontSize: 14.0,
                   ),
@@ -64,7 +59,7 @@ class ProductCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '\$${price.toStringAsFixed(2)}',
+                      '\$${item.priceInfo.price.deliveryPrice.toStringAsFixed(2)}',
                       style: GoogleFonts.roboto(
                           fontSize: 14.0, color: AppColors.green),
                     ),
