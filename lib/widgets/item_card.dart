@@ -139,66 +139,177 @@ class _ItemCardState extends State<ItemCard>
             ],
           ),
           const SizedBox(height: 25.0),
-          // TabBarView(
-          //   controller: _tabController,
-          //   children: [
-          //     const Center(child: Text('Nutritional Information')),
-          //     const Center(child: Text('Nutritional Information')),
-          //     const Center(child: Text('Instructions')),
-          //     const Center(child: Text('Allergies')),
-          //   ],
-          // ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'This product contains ingredients that may trigger allergies. Please review the ingredient list for details.',
-              ),
-              const SizedBox(height: 15.0),
-              widget.item.dishInfo == null
-                  ? Text('')
-                  : Wrap(
-                      spacing: 8.0,
-                      runSpacing: 2.0,
-                      children: [
-                        const Chip(
-                          label: Text('Int 1'),
-                          labelStyle: TextStyle(color: AppColors.gray4),
-                        ),
-                        const Chip(
-                          label: Text('Int 2'),
-                          labelStyle: TextStyle(color: AppColors.gray4),
-                        ),
-                        const Chip(
-                          label: Text('Inient 3'),
-                          labelStyle: TextStyle(color: AppColors.gray4),
-                        ),
-                        const Chip(
-                          label: Text('Ingredient 4'),
-                          labelStyle: TextStyle(color: AppColors.gray4),
-                        ),
-                        const Chip(
-                          label: Text('Ingredient 5'),
-                          labelStyle: TextStyle(color: AppColors.gray4),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'See More',
-                                style: TextStyle(color: AppColors.green),
-                              ),
-                            ),
-                            const SizedBox(width: 5.0),
-                            const Icon(Icons.arrow_forward_ios_outlined,
-                                color: AppColors.green, size: 15),
-                          ],
-                        ),
-                      ],
+          SizedBox(
+            height: 200,
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'This product contains ingredients that may trigger allergies. Please review the ingredient list for details.',
                     ),
-            ],
+                    const SizedBox(height: 15.0),
+                    widget.item.dishInfo == null
+                        ? Text('')
+                        : Wrap(
+                            spacing: 8.0,
+                            runSpacing: 2.0,
+                            children: [
+                              const Chip(
+                                label: Text('Int 1'),
+                                labelStyle: TextStyle(color: AppColors.gray4),
+                              ),
+                              const Chip(
+                                label: Text('Int 2'),
+                                labelStyle: TextStyle(color: AppColors.gray4),
+                              ),
+                              const Chip(
+                                label: Text('Inient 3'),
+                                labelStyle: TextStyle(color: AppColors.gray4),
+                              ),
+                              const Chip(
+                                label: Text('Ingredient 4'),
+                                labelStyle: TextStyle(color: AppColors.gray4),
+                              ),
+                              const Chip(
+                                label: Text('Ingredient 5'),
+                                labelStyle: TextStyle(color: AppColors.gray4),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      'See More',
+                                      style: TextStyle(color: AppColors.green),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5.0),
+                                  const Icon(Icons.arrow_forward_ios_outlined,
+                                      color: AppColors.green, size: 15),
+                                ],
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.only(bottom: 25.0),
+                            child: Text(
+                              'Nutritional Value per 100g',
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '198',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      'Kcal',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 14, color: AppColors.gray4),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ]),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '14.1',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      'Protiens',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 14, color: AppColors.gray4),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ]),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '19.6',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      'Fats',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 14, color: AppColors.gray4),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ]),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '6.6',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      'Carbo H',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 14, color: AppColors.gray4),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ]),
+                          ],
+                        )
+                      ]),
+                ),
+                const Center(child: Text('Instructions')),
+                const Center(child: Text('Allergies')),
+              ],
+            ),
           ),
         ],
       ),
