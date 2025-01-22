@@ -43,8 +43,8 @@ class _ItemCardState extends State<ItemCard>
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              'https://s3-alpha-sig.figma.com/img/e252/5b9b/9ef5d8f0d917030278aaa827f7623265?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mM9daoT8x1K2QG-9rZ7Ekf6TtgYuoz0co04TUmGTZx5DN6Kz171IDFb361Nke~q1bqhN-55rIt5mAMSLd8zAlqMLGGrL1bMjgtIoJ2Sv-CJ49oCLylSrwFNFKGXTG6L8F3gGgd8FqBu6CYwh4x1xMJ3C04rF1cliKKAyHqqUizFXfT7XkzXke9UiG0d0g5wyEGePpgD-eoAEhTsgyMYkRj-xXDvzU9K5LU9rvc1nwwDMHxNqdH9zJzU4SqXI7zqZEI9HrnvK0SVhLtrUpDnlf6B6rMCN2ZiGVlB-ci4MYyzVb3U-JdpZWDS-2HBZQYdMncYHA8~lyBQCvvgz5JWNVA__',
+            child: Image.asset(
+              'assets/item.png',
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
