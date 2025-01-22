@@ -15,6 +15,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPromotion = item.metaData.isDealProduct ?? false;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -64,21 +66,23 @@ class ProductCard extends StatelessWidget {
                           fontSize: 14.0, color: AppColors.green),
                     ),
                     const SizedBox(width: 15.0),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 2.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.yellow,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Text(
-                        '2 Promotions Available',
-                        style: GoogleFonts.roboto(
-                          fontSize: 10.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
+                    isPromotion
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5.0, vertical: 2.0),
+                            decoration: BoxDecoration(
+                              color: AppColors.yellow,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Text(
+                              '2 Promotions Available',
+                              style: GoogleFonts.roboto(
+                                fontSize: 10.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        : Text(''),
                   ],
                 ),
               ],

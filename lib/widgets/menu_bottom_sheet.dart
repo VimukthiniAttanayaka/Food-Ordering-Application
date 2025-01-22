@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/providers/menu_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MenuBottomSheet extends StatelessWidget {
-  final String selectedMenu;
-  final ValueChanged<String> onMenuChanged;
+  final VoidCallback? onClose;
 
   const MenuBottomSheet({
     super.key,
-    required this.selectedMenu,
-    required this.onMenuChanged,
+    this.onClose,
   });
 
   @override
@@ -46,67 +46,73 @@ class MenuBottomSheet extends StatelessWidget {
             height: 1.0,
             color: AppColors.gray2,
           ),
-          _buildMenuOption(
-            label: 'Lunch · 10am - 5pm',
-            value: 'lunch',
-            selectedMenu: selectedMenu,
-            onChanged: onMenuChanged,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            margin: const EdgeInsets.only(bottom: 15),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.gray2,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Lunch · 10am - 5pm',
+                  style: TextStyle(color: Colors.black),
+                ),
+                Radio<String>(
+                  value: 'lunch',
+                  groupValue: Provider.of<MenuProvider>(context).selectedMenu,
+                  onChanged: Provider.of<MenuProvider>(context).onMenuChanged,
+                  activeColor: AppColors.green,
+                ),
+              ],
+            ),
           ),
-          _buildMenuOption(
-            label: 'Breakfast · 5pm - 11pm',
-            value: 'breakfast',
-            selectedMenu: selectedMenu,
-            onChanged: onMenuChanged,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            margin: const EdgeInsets.only(bottom: 15),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.gray2,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Breakfast · 5pm - 11pm',
+                  style: TextStyle(color: Colors.black),
+                ),
+                Radio<String>(
+                  value: 'breakfast',
+                  groupValue: Provider.of<MenuProvider>(context).selectedMenu,
+                  onChanged: Provider.of<MenuProvider>(context).onMenuChanged,
+                  activeColor: AppColors.green,
+                ),
+              ],
+            ),
           ),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            margin: const EdgeInsets.symmetric(vertical: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: AppColors.green,
               borderRadius: BorderRadius.circular(25.0),
             ),
-            child: Text(
-              'Done',
-              style: GoogleFonts.roboto(color: Colors.white),
+            child: TextButton(
+              onPressed: onClose,
+              child: Text(
+                'Done',
+                style: GoogleFonts.roboto(color: Colors.white),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMenuOption({
-    required String label,
-    required String value,
-    required String selectedMenu,
-    required ValueChanged<String> onChanged,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      margin: const EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.gray2,
-          width: 1.0,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(color: Colors.black),
-          ),
-          Radio<String>(
-            value: value,
-            groupValue: selectedMenu,
-            onChanged: (String? value) {
-              onMenuChanged(value!);
-            },
-            activeColor: AppColors.green,
           ),
         ],
       ),

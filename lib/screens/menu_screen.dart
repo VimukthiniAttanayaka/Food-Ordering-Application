@@ -26,7 +26,6 @@ class _MenuScreenState extends State<MenuScreen> {
   int _selectedIndex = 1;
   List<bool> _selectedItems = [];
   final Set<String> _selectedCategoryIDs = {};
-  String _selectedMenu = 'lunch';
 
   @override
   void initState() {
@@ -41,11 +40,6 @@ class _MenuScreenState extends State<MenuScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CategoryProvider>(context, listen: false)
           .toggleCategorySelection(_selectedCategoryIDs);
-    });
-  }
-  void _onMenuChanged(String? value) {
-    setState(() {
-      _selectedMenu = value!;
     });
   }
 
@@ -95,8 +89,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 25, vertical: 10),
                                 child: _selectedIndex == 0
-                                    ? Image.asset('assets/icon1active.png')
-                                    : Image.asset('assets/icon1.png'),
+                                    ? Image.asset(
+                                        'assets/icon1active.png',
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        'assets/icon1.png',
+                                        height: 24,
+                                      ),
                               ),
                             ),
                             GestureDetector(
@@ -110,8 +110,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 25, vertical: 10),
                                 child: _selectedIndex == 1
-                                    ? Image.asset('assets/icon2active.png')
-                                    : Image.asset('assets/icon2.png'),
+                                    ? Image.asset(
+                                        'assets/icon2active.png',
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        'assets/icon2.png',
+                                        height: 24,
+                                      ),
                               ),
                             ),
                             GestureDetector(
@@ -129,8 +135,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 25, vertical: 10),
                                 child: _selectedIndex == 2
-                                    ? Image.asset('assets/icon3active.png')
-                                    : Image.asset('assets/icon3.png'),
+                                    ? Image.asset(
+                                        'assets/icon3active.png',
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        'assets/icon3.png',
+                                        height: 24,
+                                      ),
                               ),
                             ),
                           ],
@@ -151,9 +163,8 @@ class _MenuScreenState extends State<MenuScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return MenuBottomSheet(
-                          selectedMenu: _selectedMenu,
-                          onMenuChanged: (value) {
-                            _onMenuChanged(value);
+                          onClose: () {
+                            Navigator.of(context).pop();
                           },
                         );
                       },
@@ -248,6 +259,12 @@ class _MenuScreenState extends State<MenuScreen> {
                     },
                   ),
                 ),
+          if (categoryProvider.selectedCategories.isEmpty)
+            Container(
+              height: 100,
+              alignment: Alignment.center,
+              child: const Text('No items available'),
+            ),
           Column(
             children: List.generate(
               categoryProvider.selectedCategories.length,
