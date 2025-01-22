@@ -43,6 +43,11 @@ class _MenuScreenState extends State<MenuScreen> {
           .toggleCategorySelection(_selectedCategoryIDs);
     });
   }
+  void _onMenuChanged(String? value) {
+    setState(() {
+      _selectedMenu = value!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,9 +153,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         return MenuBottomSheet(
                           selectedMenu: _selectedMenu,
                           onMenuChanged: (value) {
-                            setState(() {
-                              _selectedMenu = value;
-                            });
+                            _onMenuChanged(value);
                           },
                         );
                       },
