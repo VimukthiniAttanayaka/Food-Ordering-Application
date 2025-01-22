@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/utils/colors.dart';
 
 class SizeCard extends StatefulWidget {
   const SizeCard({super.key});

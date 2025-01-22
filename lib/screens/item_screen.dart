@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/utils/colors.dart';
 import 'package:food_ordering_application/models/item.dart';
-import 'package:food_ordering_application/widgets/item_card.dart';
-import 'package:food_ordering_application/widgets/sub_topping_card.dart';
-import 'package:food_ordering_application/widgets/topping_card.dart';
+import 'package:food_ordering_application/widgets/item/item_card.dart';
+import 'package:food_ordering_application/widgets/item/sub_topping_card.dart';
+import 'package:food_ordering_application/widgets/item/topping_card.dart';
 
 class ItemScreen extends StatefulWidget {
   final MenuItem item;

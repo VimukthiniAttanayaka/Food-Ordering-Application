@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/utils/colors.dart';
 import 'package:food_ordering_application/providers/menu_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +14,7 @@ class MenuBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final menuProvider = Provider.of<MenuProvider>(context);
     return Container(
       height: 300,
       padding: const EdgeInsets.all(20),
@@ -65,8 +66,8 @@ class MenuBottomSheet extends StatelessWidget {
                 ),
                 Radio<String>(
                   value: 'lunch',
-                  groupValue: Provider.of<MenuProvider>(context).selectedMenu,
-                  onChanged: Provider.of<MenuProvider>(context).onMenuChanged,
+                  groupValue: menuProvider.selectedMenu,
+                  onChanged: menuProvider.onMenuChanged,
                   activeColor: AppColors.green,
                 ),
               ],
@@ -91,8 +92,8 @@ class MenuBottomSheet extends StatelessWidget {
                 ),
                 Radio<String>(
                   value: 'breakfast',
-                  groupValue: Provider.of<MenuProvider>(context).selectedMenu,
-                  onChanged: Provider.of<MenuProvider>(context).onMenuChanged,
+                  groupValue: menuProvider.selectedMenu,
+                  onChanged: menuProvider.onMenuChanged,
                   activeColor: AppColors.green,
                 ),
               ],
