@@ -35,3 +35,6 @@ Get dependencies: Open the terminal within your IDE and run: "flutter pub get"
 Connect a device or start an emulator: Connect a physical Android device or start an emulator (if you have one configured).
 Run the app: In the terminal,
 "flutter run"
+
+![Screenshot 2025-01-22 083118](https://github.com/user-attachments/assets/f62b6423-b3aa-4d62-a8fe-e715998327e6)
+![Screenshot 2025-01-22 083149](https://github.com/user-attachments/assets/ca9a242d-06a4-4f4c-acd7-0892d8c3d4bd)
