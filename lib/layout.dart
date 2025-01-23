@@ -31,7 +31,7 @@ class _LayoutState extends State<Layout> {
               menuList: menuProvider.menus,
               categoryList: categoryProvider.selectedCategories,
             )
-          : const Center(child: Text('No menus available')),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_application/colors.dart';
-import 'package:food_ordering_application/widgets/topping_card.dart';
+import 'package:food_ordering_application/utils/colors.dart';
+import 'package:food_ordering_application/widgets/item/topping_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SubToppingCard extends StatefulWidget {

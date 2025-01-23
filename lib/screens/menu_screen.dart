@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_application/colors.dart';
+import 'package:food_ordering_application/utils/colors.dart';
 import 'package:food_ordering_application/models/categories.dart';
 import 'package:food_ordering_application/models/menu.dart';
 import 'package:food_ordering_application/providers/category_provider.dart';
 import 'package:food_ordering_application/providers/item_provider.dart';
 import 'package:food_ordering_application/providers/menu_provider.dart';
 import 'package:food_ordering_application/screens/item_screen.dart';
-import 'package:food_ordering_application/widgets/menu_bottom_sheet.dart';
-import 'package:food_ordering_application/widgets/menu_card.dart';
+import 'package:food_ordering_application/widgets/menu/menu_bottom_sheet.dart';
+import 'package:food_ordering_application/widgets/menu/menu_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,6 @@ class _MenuScreenState extends State<MenuScreen> {
   int _selectedIndex = 1;
   List<bool> _selectedItems = [];
   final Set<String> _selectedCategoryIDs = {};
-  String _selectedMenu = 'lunch';
 
   @override
   void initState() {
@@ -43,15 +42,13 @@ class _MenuScreenState extends State<MenuScreen> {
           .toggleCategorySelection(_selectedCategoryIDs);
     });
   }
-  void _onMenuChanged(String? value) {
-    setState(() {
-      _selectedMenu = value!;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final menuProvider = Provider.of<MenuProvider>(context);
     final categoryProvider = Provider.of<CategoryProvider>(context);
+    final categoryProvider2 = Provider.of<CategoryProvider>(context, listen: false);
+    final menuItemProvider = Provider.of<MenuItemProvider>(context,listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -95,8 +92,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 25, vertical: 10),
                                 child: _selectedIndex == 0
-                                    ? Image.asset('assets/icon1active.png')
-                                    : Image.asset('assets/icon1.png'),
+                                    ? Image.asset(
+                                        'assets/icon1active.png',
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        'assets/icon1.png',
+                                        height: 24,
+                                      ),
                               ),
                             ),
                             GestureDetector(
@@ -110,8 +113,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 25, vertical: 10),
                                 child: _selectedIndex == 1
-                                    ? Image.asset('assets/icon2active.png')
-                                    : Image.asset('assets/icon2.png'),
+                                    ? Image.asset(
+                                        'assets/icon2active.png',
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        'assets/icon2.png',
+                                        height: 24,
+                                      ),
                               ),
                             ),
                             GestureDetector(
@@ -129,8 +138,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 25, vertical: 10),
                                 child: _selectedIndex == 2
-                                    ? Image.asset('assets/icon3active.png')
-                                    : Image.asset('assets/icon3.png'),
+                                    ? Image.asset(
+                                        'assets/icon3active.png',
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        'assets/icon3.png',
+                                        height: 24,
+                                      ),
                               ),
                             ),
                           ],
@@ -151,9 +166,8 @@ class _MenuScreenState extends State<MenuScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return MenuBottomSheet(
-                          selectedMenu: _selectedMenu,
-                          onMenuChanged: (value) {
-                            _onMenuChanged(value);
+                          onClose: () {
+                            Navigator.of(context).pop();
                           },
                         );
                       },
@@ -166,10 +180,10 @@ class _MenuScreenState extends State<MenuScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('LUNCH MENU'),
+                      menuProvider.selectedMenu == 'lunch'? Text('LUNCH MENU'):Text('BREAKFAST MENU'),
                       Icon(Icons.arrow_drop_down_sharp),
                     ],
                   ),
@@ -205,8 +219,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               _selectedCategoryIDs.add(categoryID);
                             }
                           });
-                          Provider.of<CategoryProvider>(context, listen: false)
-                              .toggleCategorySelection(_selectedCategoryIDs);
+                          categoryProvider2.toggleCategorySelection(_selectedCategoryIDs);
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(
@@ -248,6 +261,12 @@ class _MenuScreenState extends State<MenuScreen> {
                     },
                   ),
                 ),
+          if (categoryProvider.selectedCategories.isEmpty)
+            Container(
+              height: 100,
+              alignment: Alignment.center,
+              child: const Text('No items available'),
+            ),
           Column(
             children: List.generate(
               categoryProvider.selectedCategories.length,
@@ -260,8 +279,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                     const SizedBox(height: 8),
                     for (String entityId
-                        in Provider.of<CategoryProvider>(context, listen: false)
-                            .getMenuEntitiesIdsByMenuCategoryId(
+                        in categoryProvider2.getMenuEntitiesIdsByMenuCategoryId(
                                 menu.menuCategoryID))
                       InkWell(
                         onTap: () {
@@ -269,16 +287,12 @@ class _MenuScreenState extends State<MenuScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => ItemScreen(
-                                  item: Provider.of<MenuItemProvider>(context,
-                                          listen: false)
-                                      .getMenuItemById(entityId)),
+                                  item: menuItemProvider.getMenuItemById(entityId)),
                             ),
                           );
                         },
                         child: ProductCard(
-                          item: Provider.of<MenuItemProvider>(context,
-                                  listen: false)
-                              .getMenuItemById(entityId),
+                          item: menuItemProvider.getMenuItemById(entityId),
                           imageUrl:
                               'https://s3-alpha-sig.figma.com/img/5ae3/bea9/74c02cf405be136eb85d899535045090?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kgL9IQ0vC1h95bWFGlIcDf0kjSvuo8aNzNa6eb9i0uQAHv7NF6CkmgSeW-LUQXzoETpxC5stPf6XYGMT2v~S5RIUyyORIZmIFQffZnPAkSarS~Yz8R1xCvtTUgBpzxTclQu8qVEcYOVgvJ73pO4qmMO0qG5YOZGYaRbYf6dfEHkvdwqHhQQALLgpCMNyBAU2xVh-58jhnQizKPAoFtejfnjBkAdXtYZVedmosQ~sEkWJk2rELx8LLdEq-VsZPJWFLqL3vm3rlEMOyCf~H9Er1iyGpmmI6wHkq1R~~6AZ926Zib8z0DuTUK-ONACO5ROTjUS2KE7ezPwDcgPj3QTwrA__',
                         ),

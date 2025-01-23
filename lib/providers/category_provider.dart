@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:food_ordering_application/file_utils.dart';
+import 'package:food_ordering_application/utils/file_utils.dart';
 import 'package:food_ordering_application/models/categories.dart';
 
 class CategoryProvider with ChangeNotifier {
